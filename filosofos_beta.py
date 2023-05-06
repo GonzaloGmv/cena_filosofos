@@ -1,4 +1,3 @@
-
 import time
 import random
 import threading
@@ -12,13 +11,14 @@ class filosofo(threading.Thread):
     tenedores = [] #ARRAY DE SEMAFOROS PARA SINCRONIZAR ENTRE FILOSOFOS, MUESTRA QUIEN ESTA EN COLA DEL TENEDOR
     count=0
 
-    def __init__(self):
+    def __init__(self, color):
         super().__init__()      #HERENCIA
         self.id=filosofo.count #DESIGNA EL ID AL FILOSOFO
         filosofo.count+=1 #AGREGA UNO A LA CANT DE FILOSOFOS
         filosofo.estado.append('PENSANDO') #EL FILOSOFO ENTRA A LA MESA EN ESTADO PENSANDO
         filosofo.tenedores.append(threading.Semaphore(0)) #AGREGA EL SEMAFORO DE SU TENEDOR( TENEDOR A LA IZQUIERDA)
         print("FILOSOFO {0} - PENSANDO".format(self.id))
+        self.color = color
 
     def __del__(self):
         print("FILOSOFO {0} - Se para de la mesa".format(self.id))  #NECESARIO PARA SABER CUANDO TERMINA EL THREAD
@@ -66,7 +66,7 @@ class filosofo(threading.Thread):
 def main():
     lista=[]
     for i in range(N):
-        lista.append(filosofo()) #AGREGA UN FILOSOFO A LA LISTA
+        lista.append(filosofo("white")) #AGREGA UN FILOSOFO A LA LISTA
 
     for f in lista:
         f.start() #ES EQUIVALENTE A RUN()
